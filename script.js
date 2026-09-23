@@ -46,7 +46,8 @@
 
 // ---- highlight the nav link for the section in view ----
 (function () {
-  var links = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+  // Only in-page links (#section); links to other pages like blog/ are left alone.
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
   if (!links.length || !('IntersectionObserver' in window)) return;
   var byId = {};
   var targets = [];

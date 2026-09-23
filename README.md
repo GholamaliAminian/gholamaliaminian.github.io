@@ -13,6 +13,7 @@ no build step, no dependencies.
 | `style.css` | Design tokens at the top (`:root`), then layout. Light and dark palettes both defined there |
 | `script.js` | Theme toggle, publication filter, nav highlighting |
 | `assets/Aminian_CV.pdf` | The downloadable CV |
+| `blog/` | The blog: `index.html` lists posts, one `.html` file per post, `_template.html` to copy |
 | `assets/photo.jpg` | Portrait in the header (also the link-preview image) |
 | `assets/favicon.svg` | Tab icon |
 | `.nojekyll` | Tells GitHub Pages to serve the files as-is |
@@ -48,6 +49,10 @@ at the start of its title in the full list.
 
 Also worth updating when things change: the **News** list, and the citation / h-index
 numbers in the `.highlights` strip under the header (copied from Google Scholar).
+
+## Writing a blog post
+
+See [blog/README.md](blog/README.md) for step-by-step instructions.
 
 ## Publishing changes
 

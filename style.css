@@ -85,7 +85,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 600; letter-spacing: -.01em
   font-size: 13.5px; color: var(--muted); text-decoration: none;
 }
 .nav-links a:hover { color: var(--text); background: var(--bg-soft); }
-.nav-links a[aria-current="true"] { color: var(--accent); background: var(--accent-soft); }
+.nav-links a[aria-current] { color: var(--accent); background: var(--accent-soft); }
 .theme-btn {
   flex: none; order: 3; width: 32px; height: 32px; display: grid; place-items: center;
   border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
@@ -303,6 +303,71 @@ section { padding: 48px 0; border-top: 1px solid var(--line); }
 .skills dd { margin: 4px 0 0; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag { font-size: 13px; padding: 3px 9px; border-radius: 6px; background: var(--bg-soft); border: 1px solid var(--line); color: var(--muted); }
+
+/* ---------- blog ---------- */
+.post { max-width: 720px; padding-top: 44px; padding-bottom: 56px; }
+.post-back { margin: 0 0 26px; font-size: 14px; }
+.post-back a { text-decoration: none; }
+.post-back-end { margin: 44px 0 0; }
+.post-head { margin-bottom: 30px; }
+.post-head h1 { font-size: clamp(32px, 5.6vw, 44px); line-height: 1.12; letter-spacing: -.02em; margin: 6px 0 14px; text-wrap: balance; }
+.post-meta { margin: 0; font-size: 13.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
+.post-dek { margin: 0; font-size: 18.5px; line-height: 1.55; color: var(--muted); }
+
+.post-body { font-size: 17.5px; line-height: 1.75; }
+.post-body > p, .post-body > ul, .post-body > ol { margin: 0 0 20px; }
+.post-body h2 { font-size: 25px; margin: 40px 0 12px; }
+.post-body ul, .post-body ol { padding-left: 1.3em; }
+.post-body li { margin-bottom: 8px; }
+.post-body li::marker { color: var(--accent); font-weight: 600; }
+.post-body strong { font-weight: 600; }
+
+.post-fig { margin: 30px 0; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.post-fig svg, .post-fig img { display: block; width: 100%; height: auto; }
+
+.post-fig figcaption { margin-top: 14px; font-size: 14px; line-height: 1.55; color: var(--muted); }
+.fig-label text { font: 600 14px var(--sans); fill: var(--text); }
+.fig-label .fig-small { font-weight: 500; font-size: 12.5px; fill: var(--faint); }
+.fig-axis { stroke: var(--line); stroke-width: 1.5; }
+.bar { fill: color-mix(in srgb, var(--muted) 30%, var(--surface)); }
+.bar-warn { fill: #c2703d; }
+.bar-good { fill: var(--accent); }
+.fig-val text { font: 500 13px var(--sans); fill: var(--muted); }
+.fig-letter text { font: 700 15px var(--sans); fill: var(--text); }
+.fig-note text { font: 500 12px var(--sans); }
+.fig-pct text { font: 500 14px var(--sans); fill: var(--muted); font-variant-numeric: tabular-nums; }
+.post-fig .strong { font-weight: 700; fill: var(--text); }
+.post-fig .warn { fill: #b4602c; }
+.post-fig .good { fill: var(--accent); }
+:root[data-theme="dark"] .bar-warn { fill: #e0925c; }
+:root[data-theme="dark"] .post-fig .warn { fill: #eaa06c; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .bar-warn { fill: #e0925c; }
+  :root:not([data-theme="light"]) .post-fig .warn { fill: #eaa06c; }
+}
+
+@media (max-width: 540px) {
+  /* the SVG shrinks to fit, so enlarge its text to stay readable */
+  .post-fig { padding: 14px; margin-inline: -6px; }
+  .fig-label text { font-size: 17px; }
+  .fig-label .fig-small { font-size: 13.5px; }
+  .fig-val text { font-size: 16px; }
+  .fig-letter text { font-size: 18px; }
+  .fig-note text { font-size: 15px; }
+  .fig-pct text { font-size: 17px; }
+}
+.post-cite { margin-top: 40px; padding: 18px 20px; border-left: 3px solid var(--accent); background: var(--bg-soft); border-radius: 0 var(--radius) var(--radius) 0; font-size: 15px; line-height: 1.55; }
+.post-cite p { margin: 0; }
+.post-cite .title { font-family: var(--serif); font-size: 18px; font-weight: 600; margin: 0 0 4px; }
+.post-cite .venue { font-size: 13.5px; color: var(--faint); margin-top: 3px; }
+.post-cite .venue b { color: var(--muted); }
+
+.post-list { list-style: none; margin: 0; padding: 0; }
+.post-list li { padding: 22px 0; border-top: 1px solid var(--line); }
+.post-list h2 { font-size: 23px; margin: 6px 0 6px; line-height: 1.25; }
+.post-list h2 a { color: var(--text); text-decoration: none; }
+.post-list h2 a:hover { color: var(--accent); }
+.post-list li > p:last-child { margin: 0; color: var(--muted); }
 
 /* ---------- footer ---------- */
 footer { border-top: 1px solid var(--line); padding: 28px 0 44px; color: var(--muted); font-size: 14px; }
