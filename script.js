@@ -1,29 +1,24 @@
 // ---- theme toggle (system default, manual override remembered) ----
+// The saved choice is applied by the inline script in <head>, before first paint.
 (function () {
   var root = document.documentElement;
-  var KEY = 'theme';
-  try {
-    var saved = localStorage.getItem(KEY);
-    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
-  } catch (e) { /* private mode / blocked storage */ }
-
   var btn = document.getElementById('theme-toggle');
-  if (btn) {
-    btn.addEventListener('click', function () {
-      var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      var current = root.getAttribute('data-theme') || (systemDark ? 'dark' : 'light');
-      var next = current === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem(KEY, next); } catch (e) {}
-    });
-  }
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var current = root.getAttribute('data-theme') || (systemDark ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
 })();
 
 // ---- publication filter ----
 (function () {
   var list = document.getElementById('pub-list');
   if (!list) return;
-  var items = Array.prototype.slice.call(list.children);
+  var items = Array.prototype.slice.call(list.querySelectorAll('li[data-type]'));
+  var years = Array.prototype.slice.call(list.querySelectorAll('.pub-year'));
   var buttons = Array.prototype.slice.call(document.querySelectorAll('.filter'));
   var count = document.getElementById('pub-count');
 
@@ -33,6 +28,9 @@
       var match = type === 'all' || li.dataset.type === type;
       li.hidden = !match;
       if (match) shown++;
+    });
+    years.forEach(function (y) {
+      y.hidden = !y.querySelector('li[data-type]:not([hidden])');
     });
     buttons.forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.dataset.filter === type));
