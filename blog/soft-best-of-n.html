@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>When the judge can be fooled — Gholamali Aminian</title>
+<title>When the judge (reward model) can be fooled — Gholamali Aminian</title>
 <meta name="description" content="A plain-language summary of our ICLR 2026 paper: why always picking the top-scored AI answer can backfire, and how a softer choice fixes it.">
 <meta name="author" content="Gholamali Aminian">
 <link rel="canonical" href="https://gholamaliaminian.github.io/blog/soft-best-of-n.html">
@@ -52,20 +52,20 @@
   <div class="post-body">
 
     <h2>The simple trick</h2>
-    <p>Suppose you want a better answer from an AI chatbot. One of the easiest methods is this: ask the model the same question several times, say <em>n</em> times, and have a second model, a <strong>judge</strong>, score each answer. Then show the user the answer with the highest score.</p>
-    <p>This is called <strong>best-of-<em>n</em></strong>. It needs no retraining, it's easy to run, and it works surprisingly well. That's why it's widely used, both in real products and as the baseline other methods are measured against.</p>
+    <p>Suppose you want a better answer from an AI model. One of the easiest methods is this: ask the model the same question several times, say <em>n</em> times, and have a second model, a <strong>judge or reward model</strong>, score each answer. Then show the user the answer with the highest score.</p>
+    <p>This is called <strong>best-of-<em>n</em></strong>. It needs no retraining, it's easy to run, and it works surprisingly well. That's why it's widely used, both in real applications and as the baseline other methods are measured against.</p>
 
-    <h2>The catch: the judge isn't perfect</h2>
-    <p>The judge is itself a model, and it only <em>approximates</em> what we really want. It has blind spots. It might reward answers that sound confident, or long, or polite, even when they are worse.</p>
+    <h2>The catch: the judge (or reward model) isn't perfect</h2>
+    <p>The reward model is itself a model, and it only <em>approximates</em> what we really want. It has blind spots. It might reward answers that sound confident, or long, or polite, even when they are worse.</p>
     <p>With a few answers, this rarely matters. But as you generate more and more answers, the top-scoring one becomes more and more likely to be the one that found a blind spot: it looks great to the judge without actually being great. Past a certain point, <strong>asking for more answers makes the final result worse</strong>. It's Goodhart's law in action: once a measure becomes a target, it stops being a good measure.</p>
 
     <h2>A softer rule</h2>
-    <p>Our paper studies a gentler version called <strong>soft best-of-<em>n</em></strong>. Instead of always taking the top-scored answer, you pick one at random, giving higher-scored answers a higher chance of being picked. A single dial controls how strongly you follow the judge:</p>
+    <p>Our paper studies a smoother version called <strong>soft best-of-<em>n</em></strong>. Instead of always taking the top-scored answer, you pick one at random, giving higher-scored answers a higher chance of being picked. A single parameter controls how strongly the judge’s scores influence your choice:</p>
     <ul>
-      <li><strong>Dial all the way up:</strong> always take the top score. That's ordinary best-of-<em>n</em>.</li>
-      <li><strong>Dial all the way down:</strong> ignore the judge and pick at random. That's no better than asking once.</li>
-      <li><strong>In between:</strong> trust the judge, but not blindly.</li>
-    </ul>
+      <li><strong>Complete reliance:</strong> always choose the highest-scoring answer. This is ordinary best-of-<em>n</em>.</li>
+      <li><strong>No reliance:</strong> ignore the scores and choose uniformly at random. On average, this gives the same quality as asking the model once.</li>
+      <li><strong>Partial reliance:</strong> favour higher-scoring answers while giving others a chance. The judge guides your choice without dictating it.</li>
+  </ul>
 
     <figure class="post-fig">
       <svg viewBox="0 0 540 290" role="img" aria-labelledby="fig1-title fig1-desc">
@@ -106,9 +106,9 @@
     <h2>What we showed</h2>
     <p>Methods like this are often used without a clear picture of when they help or hurt. We worked out mathematical guarantees for both the ordinary and the soft version:</p>
     <ol>
-      <li><strong>How much the choice changes the model's behaviour.</strong> Picking from <em>n</em> answers pushes the model away from its usual output, but only slowly: the effect grows roughly with the logarithm of <em>n</em>. The softer the dial, the smaller the push.</li>
+      <li><strong>How much the choice changes the model's behaviour.</strong> Picking from <em>n</em> answers pushes the model away from its usual output, but only slowly: the effect grows roughly with the logarithm of <em>n</em>. The less strongly you favour high scores, the smaller this shift.</li>
       <li><strong>How far the result is from the best possible answer.</strong> This gap depends on two things: how wrong the judge is, and how often the model produces a truly great answer in the first place. A weak model or a weak judge both cost you.</li>
-      <li><strong>When soft beats ordinary.</strong> If the judge is accurate, always taking the top score is the right choice. But if the judge has blind spots, there is a <em>sweet spot</em> on the dial where the soft version does better.</li>
+      <li><strong>When soft beats ordinary.</strong> If the judge is accurate, always taking the top score is the right choice. But if the judge has blind spots. The right balance between the scores and allowing randomness can help the soft version perform better.</li>
     </ol>
 
     <h2>Does it hold up in practice?</h2>
